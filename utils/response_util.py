@@ -14,10 +14,10 @@ class ResponseUtil():
         self.res['code'] = code
 
     @staticmethod
-    def success_true(data):
+    def success_true(data:str):
         return ResponseUtil(True, data, '', 200)
         
     @staticmethod
-    def success_false(err):
+    def success_false(err:ErrorUtil):
         # err: controller에서 생성된 error util 객체
         return ResponseUtil(err.status, None, err.message, err.code)
