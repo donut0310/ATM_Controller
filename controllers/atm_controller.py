@@ -52,15 +52,18 @@ class AtmController():
         # verify database type
         if _service != service:
             MyError.unmatch_db(_service, service) 
-        
-        # 아래 코드는 DB 호출을 가정함
+
+        if not account.keys():
+            MyError.no_users()
+            
+        # 아래 코드는 DB 호출을 가정
         user = None
         for i in range(len(self.data['data'])):
             if self.data['data'][i]['pin']==account['pin'] and self.data['data'][i]['oid'] == account['oid']:
                 self.data['data'][i]['balance'] += money
                 user = self.data['data'][i]
                 return user
-        # DB호출 결과 업데이트 내용이 없는 경우 예외 처리
+        # DB호출 결과가 없거나 DB상 에러인 경우
         MyError.no_users()
 
     # 계정 출금
@@ -80,8 +83,11 @@ class AtmController():
         # verify database type
         if _service != service:
             MyError.unmatch_db(_service, service) 
-        
-        # 아래 코드는 DB 호출을 가정함
+
+        if not account.keys():
+            MyError.no_users()
+
+        # 아래 코드는 DB 호출을 가정
         user = None
         for i in range(len(self.data['data'])):
             if self.data['data'][i]['pin']==account['pin'] and self.data['data'][i]['oid'] == account['oid']:
@@ -93,7 +99,7 @@ class AtmController():
                 self.data['data'][i]['balance'] -= money
                 user = self.data['data'][i]     
                 return user
-        # DB호출 결과 업데이트 내용이 없는 경우 예외 처리
+        # DB호출 결과가 없거나 DB상 에러인 경우
         MyError.no_users()
 
     # 계정 잔고 조회
@@ -112,10 +118,13 @@ class AtmController():
         if _service != service:
             MyError.unmatch_db(_service, service) 
 
-        # 아래 코드는 DB 호출을 가정함
+        if not account.keys():
+            MyError.no_users()
+
+        # 아래 코드는 DB 호출을 가정
         for i in range(len(self.data['data'])):
             if self.data['data'][i]['pin']==account['pin'] and self.data['data'][i]['oid'] == account['oid']:
                 return self.data['data'][i]['balance']
 
-        # DB호출 결과 선택된 계정에 대한 데이터가 없는 경우
+        # DB호출 결과가 없거나 DB상 에러인 경우
         MyError.no_users()

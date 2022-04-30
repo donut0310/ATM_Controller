@@ -9,10 +9,10 @@ from controllers.atm_controller import AtmController
 from models.db import Database
 
 def main():
-    # 입력받은 핀번호 및 검증
+    # 입력받은 핀번호 검증
     input_pin = "0000-aaaa"
     try:
-        verify_pin_num(input_pin)
+        verify_pin_num(input_pin=input_pin)
     except MyError as e:
         print(e)
         return False
@@ -57,6 +57,7 @@ def main():
 
     # 계정 잔고 조회
     try:
+        query = f"select pin,balance from users where pin={selected_account['pin']} and oid={selected_account['oid']}"
         acc_balance = atm_controller.get_balance(selected_account, 'sql', query)
         print(f"{selected_account['name']}'s Valance: {acc_balance}")
     except MyError as e:

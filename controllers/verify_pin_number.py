@@ -5,25 +5,29 @@
 from utils.exception_util import MyError
 import re
 
-def verify_pin_num(pin_num:any):
+def verify_pin_num(**args:str):
     ''' 
     <Verification process>
     1. Type check => Allow only for strings
     2-1. Format check => Verify regex and length
     2-2. Exception check
     '''
-    
+    if len(args)!=1:
+        MyError.invalid_params(1,len(args))
+    v = list(args.keys())[0]
+    pin = args[v]
+
     # Type Check
-    if not isinstance(pin_num, str):
-        MyError.pinType_exception(type(pin_num))
+    if not isinstance(pin, str):
+        MyError.type_exception('str', type(pin), v)
 
     # Format Check
-    if len(pin_num) > 9:
-        MyError.length_exception(pin_num)
+    if len(pin) > 9:
+        MyError.length_exception(8, len(pin), v)
 
     regex = re.compile(r'(\d{4})-([a-zA-Z]{4})')
-    if not regex.search(pin_num):
-        MyError.format_exception(pin_num)
+    if not regex.search(pin):
+        MyError.format_exception(pin, v)
 
     return True
 

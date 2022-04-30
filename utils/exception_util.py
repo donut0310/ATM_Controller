@@ -6,19 +6,15 @@ class MyError(Exception):
     def __init__(self, msg):
         self.res['msg'] = msg
 
-    def pinType_exception(pin_type:any):
-        msg = f"Exception: Invalid Type\n => The type of variable 'input_pin' is {pin_type}\
-            \n => Please check the type of pin number'"
+    def length_exception(needs:int, input:int, v:str):
+        msg = f"Exception: Invalid Format: Length\n => A variable '{v}' of length '{needs}' is required, but this variable is length {input}\
+            \n => Please check the format of a variable '{v}'"
         raise MyError(msg)
 
-    def length_exception(pin_num:str):
-        msg = f"Exception: Invalid Format: Length\n => The value of variable is 'input_pin' is {pin_num}\
-            \n => Please check the format of pin number'"
-        raise MyError(msg)
-
-    def format_exception(pin_num:str):
-        msg = f"Exception: Invalid Format\n => The value of variable is 'input_pin' is {pin_num}\
-            \n => Please check the format of pin number'"
+    def format_exception(input:str, v:str):
+        msg = f"Exception: Invalid Format\
+            \n => Please check the format of a variable '{v}'\
+            \n => The value of a '{v}' is {input}'"
         raise MyError(msg)
 
     def unmatch_db(need_type:str, db_type:str):
@@ -38,4 +34,10 @@ class MyError(Exception):
         msg = f"Exception: Account balance is insufficient\
             \n => Account balance is '{acc_balance}'\
             \n => Withdrawal amount is '{withdrawal}'"
+        raise MyError(msg)
+
+    def invalid_params(needs, input):
+        msg = f"Exception: Invalid Parameters\
+            \n => This function requires '{needs}' variables\
+            \n => but only '{input}' variable is passed"
         raise MyError(msg)
