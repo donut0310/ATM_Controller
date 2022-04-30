@@ -42,6 +42,7 @@ def main():
     try:
         query = f'update users set money=money+{10000}'
         selected_account = atm_controller.deposit(selected_account, 10000, 'sql', query)
+        # selected_account = atm_controller.deposit({}, 10000, 'sql', query)
     except MyError as e:
         print(e)
         return False

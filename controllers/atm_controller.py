@@ -46,6 +46,11 @@ class AtmController():
         if not Validation.isStr(query):
             MyError.type_exception('str', type(query), "query")
 
+        # verify database type
+        _service = self.data['service']
+        if _service != service:
+            MyError.unmatch_db(_service, service) 
+
         # 아래 코드는 데이터베이스 조회를 가정
         users = []
         if service == 'sql':
@@ -122,7 +127,7 @@ class AtmController():
                     MyError.lack_of_balance(acc_balance, money)
 
                 self.data['data'][i]['balance'] -= money
-                user = self.data['data'][i]     
+                user = self.data['data'][i]
                 return user
         # DB호출 결과가 없거나 DB상 에러인 경우
         MyError.no_users()
