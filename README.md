@@ -6,7 +6,22 @@ db = Database() # 사용자 데이터베이스 연결
 atm_controller = AtmController(db.cursor) # 컨트롤러 호출
 ```
 
+***
 
+### Assumption
+
+1. 가상의 데이터베이스 객체 생성
+
+```python
+            'service':'sql'|'orm'...,
+            'data':[
+                {'name':'John','balance':10000,'pin':'0000-aaaa','oid':0},
+                {'name':'Lee', 'balance':5000,'pin':'1212-abab','oid':1},
+                {'name':'Choi', 'balance':3000,'pin':'0000-aaaa','oid':2}
+            ]
+```
+
+2. Methods내에서 sql, orm 등에 따른 각 DB 접근은 실제 호출이 아닌 가정된 코드로 진행 
 
 ***
 
@@ -20,7 +35,7 @@ atm_controller = AtmController(db.cursor) # 컨트롤러 호출
 
   유효성 검사는 다음과 같은 과정을 거칩니다.
 
-  1. 매개변수의 타입 체크 (str)
+  1. 매개변수의 타입 체크
   2. 매개변수의 포맷 일치 여부 확인
 
   ```python
