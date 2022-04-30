@@ -4,7 +4,6 @@ import os
 from utils.exception_util import MyError
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
-from controllers.verify_pin_number import verify_pin_num
 from controllers.atm_controller import AtmController
 from models.db import Database
 
@@ -12,7 +11,7 @@ def main():
     # 입력받은 핀번호 검증
     input_pin = "0000-aaaa"
     try:
-        verify_pin_num(input_pin=input_pin)
+        AtmController.verify_pin_num(input_pin=input_pin)
     except MyError as e:
         print(e)
         return False
@@ -41,7 +40,7 @@ def main():
 
     # 계정 입금
     try:
-        query = f'update users set money=money+{5000}'
+        query = f'update users set money=money+{10000}'
         selected_account = atm_controller.deposit(selected_account, 10000, 'sql', query)
     except MyError as e:
         print(e)

@@ -1,7 +1,4 @@
-'''
-ATM Controller
-'''
-from typing import overload
+import re
 
 from utils.exception_util import MyError
 from utils.validation import Validation
@@ -10,6 +7,34 @@ class AtmController():
     data={}
     def __init__(self, db):
         self.data = db
+    
+    @staticmethod
+    # 핀번호 검증
+    def verify_pin_num(**args:str):
+        ''' 
+        <Verification process>
+        1. Type check => Allow only for strings
+        2-1. Format check => Verify regex and length
+        2-2. Exception check
+        '''
+        if len(args)!=1:
+            MyError.invalid_params(1,len(args))
+        v = list(args.keys())[0]
+        pin = args[v]
+
+        # Type Check
+        if not isinstance(pin, str):
+            MyError.type_exception('str', type(pin), v)
+
+        # Format Check
+        if len(pin) > 9:
+            MyError.length_exception(8, len(pin), v)
+
+        regex = re.compile(r'(\d{4})-([a-zA-Z]{4})')
+        if not regex.search(pin):
+            MyError.format_exception(pin, v)
+
+        return True
 
     # 계정 선택
     def find_accounts(self, pin:str, service:str, query:str=''):
@@ -55,7 +80,7 @@ class AtmController():
 
         if not account.keys():
             MyError.no_users()
-            
+
         # 아래 코드는 DB 호출을 가정
         user = None
         for i in range(len(self.data['data'])):
